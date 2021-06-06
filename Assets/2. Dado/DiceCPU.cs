@@ -10,15 +10,15 @@ public class DiceCPU : MonoBehaviour
     public bool collidoColPlayer;
 
     int faccia;
-    public int mosseContatore;
+    int mosseContatore;
     bool canGoUp;
     bool canGoDown;
     bool canGoLeft;
     bool canGoRight;
 
-    public bool movementPermission;
+    bool movementPermission;
 
-    public string casellaAttuale;
+    string casellaAttuale;
     
 
     private void Start()
@@ -45,18 +45,18 @@ public class DiceCPU : MonoBehaviour
         AggiornaMosse();
     }
 
+    Vector3 prevDir = Vector3.zero;
     private void Update()
     {
-        
-        if ( mosseContatore > 0 && movementPermission)
+        if ( mosseContatore > 0 && movementPermission && !gameObject.GetComponent<DiceStep>().isTumbling)
         {
             CheckMovimenti();
             var dir = RandomDirectionGenerator();
-
-            if (dir != Vector3.zero && !gameObject.GetComponent<DiceStep>().isTumbling )
+            if (dir != Vector3.zero && (dir != DirOpposta(prevDir)))
             {
                 StartCoroutine(gameObject.GetComponent<DiceStep>().Tumble(dir));
                 mosseContatore--;
+                prevDir = dir;
                 dir = Vector3.zero;
             }
 
@@ -67,7 +67,29 @@ public class DiceCPU : MonoBehaviour
                 StartCoroutine(gameManager.GetComponent<GameManager>().HoFinito(casellaAttuale, "CPU"));
             }
         }
+    }
 
+    public Vector3 DirOpposta(Vector3 direzione)
+    {
+        if (direzione == Vector3.forward)
+        {
+            return Vector3.back;
+        }else if (direzione == Vector3.back)
+        {
+            return Vector3.forward;
+        }
+        else if (direzione == Vector3.left)
+        {
+            return Vector3.right;
+        }
+        else if (direzione == Vector3.right)
+        {
+            return Vector3.left;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     public void CanGo(bool yesOrNot)
@@ -117,7 +139,8 @@ public class DiceCPU : MonoBehaviour
     {
         faccia = attualeFaccia;
     }
-    
+
+
 
     public Vector3 RandomDirectionGenerator()
     {
@@ -126,7 +149,7 @@ public class DiceCPU : MonoBehaviour
         switch (x)
         {
             case 0:
-                if (canGoUp) dir = Vector3.forward;
+                if (canGoUp) dir = Vector3.forward; 
                 break;
             case 1:
                 if (canGoDown) dir = Vector3.back;

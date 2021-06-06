@@ -26,7 +26,7 @@ public class UIManager : Singleton<UIManager>
 
     public void RefreshTimerText(float actualTime)
     {
-        _timer.text = actualTime.ToString("F2");
+        _timer.text = "Tempo: " + actualTime.ToString("F2");
     }
 
     public void TurnoPlayer()
@@ -48,7 +48,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (winner != "none")
         {
-            _winnerText.text = winner + "wins!";
+            _winnerText.text = winner + " wins!";
         }
         else
         {
