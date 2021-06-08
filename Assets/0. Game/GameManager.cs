@@ -22,10 +22,31 @@ public class GameManager : Singleton<GameManager>
     {
         UIManager.Instance.TurnoDiNessuno();
         UIManager.Instance.SetWinner("none");
+        stop = true;
 
-        stop = false;
         casellaCPU = "aa";
         casellaPlayer = "bb";
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(TossACoin());
+    }
+
+    public void RestartGame()
+    {
+        timer = 0;
+        stop = true;
+        UIManager.Instance.TurnoDiNessuno();
+        UIManager.Instance.SetWinner("none");
+
+        casellaCPU = "aa";
+        casellaPlayer = "bb";
+
+
+        //Resetta i dadi.
+        Player.GetComponent<DiceController>().Reset();
+        CPU.GetComponent<DiceCPU>().Reset();
 
         StartCoroutine(TossACoin());
     }
@@ -41,7 +62,7 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.Space) && stop )
         {
-            Restart();
+            RestartGame();
         }
     }
 
@@ -113,7 +134,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator TossACoin()
     {
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         int x = Random.Range(0, 2);
 
         if (x == 0)
@@ -123,42 +144,11 @@ public class GameManager : Singleton<GameManager>
         {
             GoCPU();
         }
-    }
-
-
-
-    public void Restart()
-    {
-        timer = 0;
         stop = false;
-        UIManager.Instance.TurnoDiNessuno();
-        UIManager.Instance.SetWinner("none");
-
-        casellaCPU = "aa";
-        casellaPlayer = "bb";
-
-
-        //Resetta i dadi.
-        Player.GetComponent<DiceController>().Reset();
-        CPU.GetComponent<DiceCPU>().Reset();
-
-        StartCoroutine(TossACoin());
     }
 
-    [SerializeField] GameObject diagCross;
-    [SerializeField] GameObject normalCross;
-    public void ActivateDiagonalControl()
-    {
-        if (!Player.GetComponent<Swipe>().isDiagonal) {
-            Player.GetComponent<Swipe>().isDiagonal = true;
-            diagCross.SetActive(true);
-            normalCross.SetActive(false);
-        }
-        else
-        {
-            Player.GetComponent<Swipe>().isDiagonal = false;
-            normalCross.SetActive(true);
-            diagCross.SetActive(false);
-        }
-    }
+
+
+    
+
 }
