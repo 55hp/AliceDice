@@ -29,6 +29,9 @@ public class DiceCPU : MonoBehaviour
         canGoLeft = false;
         canGoRight = false;
         canGoUp = false;
+
+        gameObject.transform.SetPositionAndRotation(new Vector3(3, 1, 3), new Quaternion(0, 0, 90, 1));
+        gameObject.transform.eulerAngles = PickRandomFace();
     }
 
     public void Reset()
@@ -41,7 +44,6 @@ public class DiceCPU : MonoBehaviour
         canGoUp = false;
         gameObject.transform.SetPositionAndRotation(new Vector3(3, 1, 3), new Quaternion(0, 0, 90, 1));
         gameObject.transform.eulerAngles = PickRandomFace();
-
         AggiornaMosse();
     }
 
@@ -67,6 +69,11 @@ public class DiceCPU : MonoBehaviour
                 StartCoroutine(gameManager.GetComponent<GameManager>().HoFinito(casellaAttuale, "CPU"));
             }
         }
+    }
+
+    public void AttivaParticle()
+    {
+        gameObject.GetComponent<ParticleSystem>().Play();
     }
 
     public Vector3 DirOpposta(Vector3 direzione)

@@ -11,6 +11,31 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] Text _winnerText;
 
+    [SerializeField] Camera _myCamera;
+
+
+    protected override void Awake()
+    {
+        SetCameraSize();
+    }
+
+    public void SetCameraSize()
+    {
+        float amount = 400 - (Screen.height - Screen.width);
+
+        if (amount >= 0)
+        {
+            amount = amount / 300;
+            _myCamera.orthographicSize = 5 + amount;
+        }
+        else
+        {
+            amount = amount / 300;
+            _myCamera.orthographicSize = 5 - amount;
+        }
+
+        
+    }
 
     public void RefreshMosse(int mosseRestanti)
     {

@@ -25,6 +25,8 @@ public class DiceController : MonoBehaviour
         canGoLeft = false;
         canGoRight = false;
         canGoUp = false;
+        gameObject.transform.SetPositionAndRotation(new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 1));
+        gameObject.transform.eulerAngles = PickRandomFace();
         AggiornaMosse();
     }
 
@@ -114,7 +116,10 @@ public class DiceController : MonoBehaviour
 
         #endregion
     }
-
+    public void AttivaParticle()
+    {
+        gameObject.GetComponent<ParticleSystem>().Play();
+    }
 
     public void CanGo(bool yesOrNot)
     {
@@ -150,6 +155,64 @@ public class DiceController : MonoBehaviour
         }
         #endregion
 
+        /*
+        //TODO NON POSSO MUOVERMI SULLA CASELLA DOVE SI TROVA LA CPU
+        string casellaCPU = GameManager.Instance.casellaCPU;
+
+        string miaLettera = casellaAttuale.Substring(0,1);
+        int mioNumero = int.Parse(casellaAttuale.Substring(1, 1));
+
+        string suaLettera = casellaCPU.Substring(0, 1);
+        int suoNumero = int.Parse(casellaCPU.Substring(1, 1));
+
+        Debug.Log("IO: " + miaLettera + mioNumero + "\nLUI: " +suaLettera + suoNumero);
+
+        if (miaLettera == suaLettera)
+        {
+            if (mioNumero == suoNumero + 1 )
+            {
+                canGoLeft = false;
+            }else if (mioNumero == suoNumero - 1)
+            {
+                canGoRight = false;
+            }
+        }
+
+        if(mioNumero == suoNumero)
+        {
+            if (miaLettera == "A" && suaLettera == "B")
+            {
+                canGoUp = false;
+            }
+
+            if (miaLettera == "B" && suaLettera == "C")
+            {
+                canGoUp = false;
+            }
+
+            if (miaLettera == "C" && suaLettera == "D")
+            {
+                canGoUp = false;
+            }
+
+            if (miaLettera == "D" && suaLettera == "C")
+            {
+                canGoDown = false;
+            }
+
+            if (miaLettera == "C" && suaLettera == "B")
+            {
+                canGoDown = false;
+            }
+
+            if (miaLettera == "B" && suaLettera == "A")
+            {
+                canGoDown = false;
+            }
+
+        }
+
+        */
     }
 
     public void AggiornaMosse()

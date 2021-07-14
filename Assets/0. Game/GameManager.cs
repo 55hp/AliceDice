@@ -24,8 +24,8 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.SetWinner("none");
         stop = true;
 
-        casellaCPU = "aa";
-        casellaPlayer = "bb";
+        casellaCPU = "D1";
+        casellaPlayer = "A4";
     }
 
     public void StartGame()
@@ -122,9 +122,11 @@ public class GameManager : Singleton<GameManager>
             if (chiSono == "Player")
             {
                 UIManager.Instance.SetWinner("Player");
+                Player.GetComponent<DiceController>().AttivaParticle();
             }
             else
             {
+                CPU.GetComponent<DiceCPU>().AttivaParticle();
                 UIManager.Instance.SetWinner("CPU");
             }
             UIManager.Instance.TurnoDiNessuno();
